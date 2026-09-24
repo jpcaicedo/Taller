@@ -49,5 +49,10 @@ export class OrdersController {
   @Get(":id/priority")
   getPriority(@Param("id") id: string) {
     return this.ordersService.getPriority(Number(id));
-}
+  }
+
+  @Get("pending-queue")
+  findPendingQueue() {
+    return this.ordersService.findPendingQueue();
+  }
 }

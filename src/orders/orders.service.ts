@@ -121,4 +121,22 @@ export class OrdersService {
       },
     });
   }
+
+  async findPendingQueue() {
+  const [orders, totalPending] = await Promise.all([
+  this.ordersRepository.find({
+    where: { status: "pending" },
+    relations: { customer: true },
+    order: { id: "ASC" },
+    take: 5,
+    }),
+    this.ordersRepository.countBy({ status: "pending" }),
+  ]);
+   return {
+    totalPending,
+    showing: orders.length,
+    orders,
+  };
+}
+
 }
