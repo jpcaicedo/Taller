@@ -8,6 +8,7 @@ import { OrderRulesService } from "./order-rules/order-rules.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { OrdersSummaryService } from "./orders-summary.service";
 import { OrderPreparationEstimateService } from "./order-preparation-estimate/order-preparation-estimate.service";
+import { OrderPriorityService } from "./order-priority.service";
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { OrderPreparationEstimateService } from "./order-preparation-estimate/or
     OrderRulesService,
     OrdersSummaryService,
     OrderPreparationEstimateService,
+    OrderPriorityService,
   ],
   controllers: [OrdersController],
 })

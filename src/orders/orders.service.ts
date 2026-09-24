@@ -7,6 +7,7 @@ import { MoreThan, Repository } from "typeorm";
 import { UpdateOrderDto } from "./dto/update-order.dto";
 import { OrderRulesService } from "./order-rules/order-rules.service";
 import { OrderPreparationEstimateService } from "./order-preparation-estimate/order-preparation-estimate.service";
+import { OrderPriorityService } from "./order-priority.service";
 
 @Injectable()
 export class OrdersService {
@@ -20,6 +21,8 @@ export class OrdersService {
     private readonly orderRulesService: OrderRulesService,
 
     private readonly orderPreparationEstimate: OrderPreparationEstimateService,
+
+    private readonly orderPriorityService: OrderPriorityService,
   ) {}
 
   async create(createOrderDto: CreateOrderDto): Promise<OrderEntity> {
@@ -95,6 +98,18 @@ export class OrdersService {
 
     return this.orderPreparationEstimate.estimate(order);
   }
+  async getPriority(id: number) {
+  const order = await this.findOne(id);
+  const { priority, message } = this.orderPriorityService.classify(order);
+
+  return {
+    orderId: order.id,
+    status: order.status,
+    quantity: order.quantity,
+    priority,
+    message,
+  };
+}
 
   findRecentPending() {
     return this.ordersRepository.find({
